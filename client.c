@@ -13,7 +13,21 @@ void login()
 
     password = getpass("Enter password:");
 
-    printf("Entered password = %s\n", password);
+    // int status = check_credentials(username, password);
+
+    // if(status == 1)
+    //     printf("Login Successful!\n");
+
+    // else if(status == -1)
+    //     printf("Username or password wrong\n");
+
+    // else if(status == -2)
+    //     printf("Honeypot account hit - ALARM!!!\n");
+    
+    // else if(status == -3)
+    //     printf("Honeyword hit - ALARM!!!\n");
+    
+
 
     return ;
 }
@@ -21,29 +35,35 @@ void login()
 
 void create_new_account()
 {
-    char username[N];
-    char *passwd, *repeat_passwd;
+    char username[N], password[N];
+    char *p1;
 
-    printf("Enter a username:");
-    scanf("%s", username);
+    // do{
+        printf("Enter a username:");
+        scanf("%s", username);
 
-    passwd = getpass("Enter a password (should be 8-12 characters):");
+        // if(username_available(username) == 0)
+        // {
+        //     printf("Username already taken. Try again.\n");
+        // }
+
+    // }while(1)
+
+    p1 = getpass("Enter a password (should be 8-12 characters):");
     
-    printf("%s\n", passwd);
-
-    if(strlen(passwd) < 8 || strlen(passwd) > 12)
+    if(strlen(p1) < 8 || strlen(p1) > 12)
     {
         printf("Password must be of 8-12 characters.\n");
         return ;
     }
 
-    repeat_passwd = getpass("Enter the password again:");
+    strcpy(password, p1);
 
-    printf("%s\n", repeat_passwd);
+    p1 = getpass("Enter the password again:");
 
-    if(strcmp(passwd, repeat_passwd) != 0)
+    if(strcmp(password, p1) != 0)
     {
-        printf("Paswords do not match.\n");
+        printf("Passwords do not match. Try Again!\n");
         return ;
     }
 
