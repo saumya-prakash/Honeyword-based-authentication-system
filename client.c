@@ -32,7 +32,6 @@ void login()
         printf("Honeyword hit - ALARM!!!\n");
     
 
-
     return ;
 }
 
@@ -42,16 +41,17 @@ void create_new_account()
     char username[N], password[N];
     char *p1;
 
-    // do{
+    printf("Enter a username:");
+    scanf("%s", username);
+
+    while(username_available(msgid, username) == 0)
+    {    
+        printf("Username already taken. Try again.\n\n");
+    
         printf("Enter a username:");
         scanf("%s", username);
+    }
 
-        // if(username_available(username) == 0)
-        // {
-        //     printf("Username already taken. Try again.\n");
-        // }
-
-    // }while(1)
 
     p1 = getpass("Enter a password (should be 8-12 characters):");
     
@@ -70,9 +70,17 @@ void create_new_account()
         printf("Passwords do not match. Try Again!\n");
         return ;
     }
+
+    int k;
+    printf("Enter k [default is 6]: ");
+    scanf("%d", &k);
     
-    // int status = register_user(msgid, username, password);
-    
+    int status = register_user(msgid, username, password, k);
+
+    if(status == 1)
+        printf("Registration successful!\n");
+    else
+        printf("Registration failed. Try again.\n");
 
     return ;
 }

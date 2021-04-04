@@ -35,6 +35,7 @@ sample
 
 # Executables
 client
+server
 *.exe
 *.out
 *.app

@@ -4,7 +4,9 @@
 #include <string.h>
 
 #include <unistd.h>
+#include <signal.h>
 #include <sys/msg.h>
+
 #include <openssl/md5.h>
 
 
