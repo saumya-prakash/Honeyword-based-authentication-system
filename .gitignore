@@ -1,5 +1,7 @@
-# Program files
+# Extra files
 exp.c
+sample
+.vscode
 
 # Prerequisites
 *.d

@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 #include <unistd.h>
+#include <sys/msg.h>
+#include <openssl/md5.h>
 
 
 
-
-#define message_queue_key 131
 
 
 #define N 256   // buffer size

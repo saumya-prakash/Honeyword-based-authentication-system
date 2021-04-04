@@ -1,5 +1,9 @@
 #include "headers.h"
+#include "communication.h"
+#include "utilities.h"
 
+
+int msgid;
 
 
 void login()
@@ -13,19 +17,19 @@ void login()
 
     password = getpass("Enter password:");
 
-    // int status = check_credentials(username, password);
+    int status = check_credentials(msgid, username, password);
 
-    // if(status == 1)
-    //     printf("Login Successful!\n");
+    if(status == 1)
+        printf("Login Successful!\n");
 
-    // else if(status == -1)
-    //     printf("Username or password wrong\n");
+    else if(status == -1)
+        printf("Username or password wrong\n");
 
-    // else if(status == -2)
-    //     printf("Honeypot account hit - ALARM!!!\n");
+    else if(status == -2)
+        printf("Honeypot account hit - ALARM!!!\n");
     
-    // else if(status == -3)
-    //     printf("Honeyword hit - ALARM!!!\n");
+    else if(status == -3)
+        printf("Honeyword hit - ALARM!!!\n");
     
 
 
@@ -66,6 +70,9 @@ void create_new_account()
         printf("Passwords do not match. Try Again!\n");
         return ;
     }
+    
+    // int status = register_user(msgid, username, password);
+    
 
     return ;
 }
@@ -74,6 +81,8 @@ void create_new_account()
 int main()
 {
     printf("Welcome to the Authentication System.\n\n");
+
+    msgid = get_msgid();
 
     int option = 0;
 
