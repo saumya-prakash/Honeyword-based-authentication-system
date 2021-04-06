@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <time.h>
+
 #include <unistd.h>
 #include <signal.h>
 #include <sys/msg.h>
