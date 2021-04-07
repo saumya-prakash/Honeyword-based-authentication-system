@@ -19,9 +19,9 @@ int username_registered(char *username)
         return 0;
     
 
-    char tmp[N];
+    char tmp[MAX_LINE_LENGTH];
     char *lineptr = tmp;
-    size_t a = N;
+    size_t a = MAX_LINE_LENGTH;
     size_t len;
     
 
@@ -131,6 +131,7 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
     for(i=0; i<k-1; i++)
     {
+        printf("n = %d\n", n);
         int index = (int)(2*n*drand48()) % n;
 
         honeyset[i] = arr[index];

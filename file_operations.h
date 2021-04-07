@@ -1,6 +1,7 @@
 #include "headers.h"
 
-#define MAX_LINE_LENGTH 512
+
+#define MAX_LINE_LENGTH (512)
 
 #define file1 "F1"
 #define file2 "F2"
