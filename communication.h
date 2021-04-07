@@ -1,5 +1,8 @@
 #include "headers.h"
 
+#include <sys/msg.h>
+
+
 #define message_queue_key 131
 
 #define message_length 1024

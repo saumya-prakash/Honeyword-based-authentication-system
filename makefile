@@ -32,8 +32,10 @@ server.o: server.c
 crypt.o: crypt.c
 			$(CC) $(CFLAGS) -c crypt.c
 
+
 communication.o: communication.c
 					$(CC) $(CFLAGS) -c communication.c
+
 
 file_operations.o: file_operations.c
 					$(CC) $(CFLAGS) -c file_operations.c
@@ -44,5 +46,8 @@ utilities.o: utilities.c
 				$(CC) $(CFLAGS) -c utilities.c
 
 
+
+
+# deleting the object file, executables
 clean:
 		rm -f a.out *.o client server
