@@ -45,7 +45,6 @@ int username_available(int msgid, char *username)
     int status;
     sscanf(response.text, "%d", &status);
 
-
     return !status;
 }
 

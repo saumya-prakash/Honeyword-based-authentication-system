@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 LDFLAGS = -lcrypto
 
 
@@ -13,8 +13,8 @@ client: client.o communication.o
 
 
 
-server: server.o crypt.o communication.o file_operations.o
-			$(CC) server.o crypt.o communication.o file_operations.o -o server $(LDFLAGS)
+server: server.o crypt.o communication.o file_operations.o utilities.o
+			$(CC) server.o crypt.o communication.o file_operations.o utilities.o -o server $(LDFLAGS)
 
 
 
@@ -35,11 +35,13 @@ crypt.o: crypt.c
 communication.o: communication.c
 					$(CC) $(CFLAGS) -c communication.c
 
-
 file_operations.o: file_operations.c
 					$(CC) $(CFLAGS) -c file_operations.c
 
 
+
+utilities.o: utilities.c
+				$(CC) $(CFLAGS) -c utilities.c
 
 
 clean:

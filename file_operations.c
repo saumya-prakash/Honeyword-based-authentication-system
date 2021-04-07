@@ -4,6 +4,7 @@ This file contains the definitions of various file-related functions
 
 
 #include "file_operations.h"
+#include "utilities.h"
 
 
 /* function to check if a given username is registered */
@@ -12,7 +13,6 @@ int username_registered(char *username)
     if(username == NULL)    /* NULL input not allowed */
         return 0;
     
-
     FILE *fptr = fopen(file1, "r"); /* open 'F1' file */
 
     if(fptr == NULL)
@@ -90,7 +90,7 @@ int get_random_index()
         return -1;
 
     // get a random index
-    int index = (int)(drand48()*n) % n;
+    int index = (int)(2*drand48()*n) % n;
 
     // return element at the random index
     return brr[index];
@@ -98,7 +98,7 @@ int get_random_index()
 
 
 
-int get_honeyindex_set(int index_set[], int a, int k)
+int get_honeyindex_set(int honeyset[], int a, int k)
 {
     FILE *fptr = fopen(file2, "r");
 
@@ -120,18 +120,70 @@ int get_honeyindex_set(int index_set[], int a, int k)
         i++;
     }
 
-    fclose(fptr);    
+    fclose(fptr);   // close the file 
 
     int n = i;
 
-    for(i=0; i<n; i++)
-        printf("%d\n", arr[i]);
+    // select k-1 elements from arr[] randomly
+    // append 'a' to set[]
+    // randomly permutate set[]
+    // return
+
+    for(i=0; i<k-1; i++)
+    {
+        int index = (int)(2*n*drand48()) % n;
+
+        honeyset[i] = arr[index];
+
+        arr[index] = arr[n-1];
+        n--;
+    }
+
+    honeyset[k-1] = a;
+
+    permutate_array(honeyset, k);
+
+    return 1;
+}
 
 
 
 
 
+int add_to_file1(char username[], int honeyset[], int k)
+{
+    FILE *fptr = fopen(file1, "a");
 
+    if(fptr == NULL)
+        return -1;
+    
+    fprintf(fptr, "\n");  // add a newline
+
+    fprintf(fptr, "%s ", username); // add usernmae
+
+    int i;
+    for(i=0; i<k; i++)  // add honeyset
+        fprintf(fptr, "%d ", honeyset[i]);
+
+    fclose(fptr);
+
+
+    return 1;
+}
+
+
+int add_to_file2(int a, char hashed[])
+{
+    FILE *fptr = fopen(file2, "a");
+
+    if(fptr == NULL)
+        return -1;
+
+    fprintf(fptr, "\n");
+
+    fprintf(fptr, "%d:%s", a, hashed);
+
+    fclose(fptr);
 
     return 1;
 }
