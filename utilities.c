@@ -18,3 +18,40 @@ void permutate_array(int arr[], int n)
     
     return ;
 }
+
+
+
+int convert_to_int_array(int arr[], char num[])
+{
+    char tmp[30] = {'\0'};
+
+    int a = 0;
+    int i = 0;
+    
+    while(num[i] != '\0')
+    {
+        if(num[i] == ' ')
+        {
+            i++;
+            continue;
+        }
+
+        else
+        {
+            int k = 0;
+            while(num[i] != '\0' && num[i] != ' ')
+            {
+                tmp[k] = num[i];
+                k++;
+                i++;
+            }
+
+            tmp[k] = '\0';
+            arr[a] = atoi(tmp);
+            a++;
+        }
+    }
+
+
+    return a;
+}

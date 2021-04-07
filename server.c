@@ -88,11 +88,15 @@ int main()
 
         else if(strcmp(query_type, "CHECK") == 0)
         {
-            // extract username and password
-            // get MD5 of the password
-            // get the honeyindex set from F1
-            // Detect if it is a honeypot account
-            // if not, verify the match with the honeychecker
+            // extract username and password - OK
+            // get MD5 of the password - OK
+
+            // get the honeyindex set from F1 - OK
+            // Detect if it is a honeypot account - OK (in-built in previous step)
+
+            // match with entries from F2 - OK
+            // verify the match with the honeychecker
+            
             // return suitable status code
             ;
         }

@@ -158,13 +158,14 @@ int add_to_file1(char username[], int honeyset[], int k)
     if(fptr == NULL)
         return -1;
     
-    fprintf(fptr, "\n");  // add a newline
 
     fprintf(fptr, "%s ", username); // add usernmae
 
     int i;
     for(i=0; i<k; i++)  // add honeyset
         fprintf(fptr, "%d ", honeyset[i]);
+
+    fprintf(fptr, "\n");
 
     fclose(fptr);
 
@@ -180,11 +181,105 @@ int add_to_file2(int a, char hashed[])
     if(fptr == NULL)
         return -1;
 
-    fprintf(fptr, "\n");
-
-    fprintf(fptr, "%d:%s", a, hashed);
+    fprintf(fptr, "%d:%s\n", a, hashed);
 
     fclose(fptr);
 
     return 1;
+}
+
+
+
+
+int get_file1_entry(char result[], char username[])
+{
+    FILE *fptr = fopen(file1, "r");
+
+    if(fptr == NULL)
+        return -1;
+    
+
+    char tmp[N];
+
+    int cnt = 0;
+    int found = 0;
+
+    while(fscanf(fptr, "%s", tmp) != EOF)
+    {
+        cnt++;
+        if(strcmp(username, tmp) == 0)
+        {
+            fscanf(fptr, "%[^\n]s", result);
+
+            found = 1;
+            break;
+        }
+    }
+
+    fclose(fptr);
+
+    if(found == 0)  // username not found
+    {
+        result[0] = '\0';
+        return -2;
+    }
+
+
+    if(cnt <= 20)   // some honeypot account hit
+        return -3;
+
+    return 1;
+}
+
+
+
+int match_with_file2(char num[], char hashed[])
+{
+    int arr[MAX_K] = {0};
+
+    int n = convert_to_int_array(arr, num);
+    if(n <= 0)
+        return -1;
+    
+    FILE *fptr = fopen(file2, "r");
+
+    if(fptr == NULL)
+        return -1;
+    
+    
+    char line[MAX_LINE_LENGTH] = {'\0'};
+    size_t a = sizeof(line);
+    size_t len = 0;
+    char *lineptr = line;
+
+    int res = -1;
+
+    while((len = getline(&lineptr, &a, fptr)) != EOF)
+    {
+        int index;
+        char tmp[50] = {'\0'};
+
+        sscanf(line, "%d:%s", &index, tmp);
+
+        int i;
+        for(i=0; i<n; i++)
+        {
+            if(arr[i] == index)
+            {
+                if(strcmp(hashed, tmp) == 0)
+                {
+                    res = index;
+                    break;
+                }
+            }
+        }
+
+        if(res != -1)
+            break;
+    }
+
+    fclose(fptr);
+
+
+    return res;
 }
