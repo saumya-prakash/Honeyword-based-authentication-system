@@ -180,7 +180,9 @@ int add_to_file2(int a, char hashed[])
     if(fptr == NULL)
         return -1;
 
-    fprintf(fptr, "%d:%s\n", a, hashed);
+    fprintf(fptr, "%d:%s", a, hashed);
+
+    fprintf(fptr, "\n");
 
     fclose(fptr);
 
@@ -224,7 +226,7 @@ int get_file1_entry(char result[], char username[])
     }
 
 
-    if(cnt <= 20)   // some honeypot account hit
+    if(cnt <= HONEYPOT_COUNT)   // some honeypot account hit
         return -3;
 
     return 1;
@@ -275,6 +277,63 @@ int match_with_file2(char num[], char hashed[])
 
         if(res != -1)
             break;
+    }
+
+    fclose(fptr);
+
+
+    return res;
+}
+
+
+
+
+/*===============================================================
+    honeychecker functions
+=================================================================*/
+
+int set(char username[], int a)
+{
+    FILE *fptr = fopen(index_file, "a");
+
+    if(fptr == NULL)
+        return -1;      // error in opening file
+
+    fprintf(fptr, "%s %d", username, a);
+
+    fprintf(fptr, "\n");
+
+    fclose(fptr);
+
+    return 1;
+}
+
+
+int check(char username[], int a)
+{
+    FILE *fptr = fopen(index_file, "r");
+
+    if(fptr == NULL)
+        return -1;      // error in opening file
+    
+    char tmp[N] = {'\0'};
+
+    int res = -2;
+
+    while(fscanf(fptr, "%s", tmp) != EOF)
+    {
+        int b;
+        fscanf(fptr, "%d", &b);
+
+        if(strcmp(username, tmp) == 0)
+        {
+            if(a == b)
+                res = 1;
+            else
+                res = -2;
+
+            break;
+        }
     }
 
     fclose(fptr);

@@ -8,9 +8,9 @@ int get_msgid()
 
 
 
-/*------------------------------------------------
-client to server communication functions
-------------------------------------------------*/
+/*===================================================
+client-to-server communication functions
+=====================================================*/
 
 int check_credentials(int msgid, char *username, char *password)
 {
@@ -59,6 +59,49 @@ int register_user(int msgid, char *username, char *password, int k)
 
     struct mesg response;
     msgrcv(msgid, &response, sizeof(response.text), 2, 0);
+
+    int status;
+    sscanf(response.text, "%d", &status);
+
+    return status;
+}
+
+
+
+/*=========================================================
+server-to-honeychecker communication functions
+===========================================================*/
+
+
+int set_user(int msgid, char username[], int a)
+{
+    struct mesg data;
+    data.type = 3;
+    sprintf(data.text, "SET %s %d", username, a);
+
+    msgsnd(msgid, &data, sizeof(data.text), 0);
+
+    struct mesg response;
+    msgrcv(msgid, &response, sizeof(response.text), 4, 0);
+
+    int status;
+    sscanf(response.text, "%d", &status);
+
+    return status;
+}
+
+
+
+int check_user(int msgid, char username[], int a)
+{
+    struct mesg data;
+    data.type = 3;
+    sprintf(data.text, "CHECK %s %d", username, a);
+
+    msgsnd(msgid, &data, sizeof(data.text), 0);
+
+    struct mesg response;
+    msgrcv(msgid, &response, sizeof(response.text), 4, 0);
 
     int status;
     sscanf(response.text, "%d", &status);

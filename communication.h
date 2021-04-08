@@ -18,9 +18,17 @@ struct mesg
 /* to initialize a message queue */
 int get_msgid();
 
-/* cleint to server communication functions */
-int check_credentials(int, char*, char*);
-int username_available(int, char*);
+
+/*==========================================================
+    client-to-server communication functions
+============================================================*/
+int check_credentials(int msgid, char *username, char *password);
+int username_available(int msgid, char *username);
 int register_user(int msgid, char* username, char* password, int k);
 
 
+/*===============================================================
+    server-to-honeychecker communication functions
+=================================================================*/
+int set_user(int msgid, char username[], int a);
+int check_user(int msgid, char username[], int a);

@@ -8,6 +8,7 @@ int msgid = -1;
 void clean(int a)
 {
     msgctl(msgid, IPC_RMID, NULL);
+    exit(0);
 }
 
 
@@ -30,20 +31,27 @@ int main()
         int status = 1;
 
         char query_type[50] = {'\0'};
-        sscanf(data.text, "%s", query_type);
+        char username[N] = {'\0'};
+        int a;
+
+        sscanf(data.text, "%s %s %d", query_type, username, &a);
 
         if(strcmp(query_type, "SET") == 0)
         {
-            // extract username and index
-            // store in the file
-            // return status
+            int res = set(username, a); // store in the file
+            
+            // if(res != -1)
         }
 
         else if(strcmp(query_type, "CHECK") == 0)
         {
-            // extract username and index
-            // match with the entry from the file
-            // take appropriate actions if required
+            status = check(username, a);    // match with the entry from the file
+
+            if(status == -2)
+            {
+                printf("\aALRAM!!! HONEYWORD HIT!\n");
+            }
+
         }
 
 
