@@ -6,7 +6,7 @@ int msgid = -1;
 
 void clean(int a)
 {
-    // msgctl(msgid, IPC_RMID, NULL);
+    msgctl(msgid, IPC_RMID, NULL);
     exit(0);
 }
 
@@ -27,7 +27,14 @@ int main()
     {
         struct mesg data;
 
-        msgrcv(msgid, &data, sizeof(data.text), 1, 0);
+        int res = msgrcv(msgid, &data, sizeof(data.text), 1, 0);
+        
+        if(res < 0)
+        {
+            printf("comunication channel broken\n");
+            clean(SIGINT);
+        }
+
         printf("received message = %s\n", data.text);
 
         int status = 1;

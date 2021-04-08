@@ -3,7 +3,7 @@
 #include "utilities.h"
 
 
-int msgid;
+int msgid = -1;
 
 
 void login()

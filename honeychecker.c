@@ -25,7 +25,15 @@ int main()
     {
         struct mesg data;
 
-        msgrcv(msgid, &data, sizeof(data.text), 3, 0);
+        int res = msgrcv(msgid, &data, sizeof(data.text), 3, 0);
+        
+        if(res < 0)
+        {
+            printf("communication channel broken\n");
+            clean(SIGINT);
+        }
+        
+        
         printf("received message = %s\n", data.text);
 
         int status = 1;
