@@ -1,5 +1,7 @@
 #include "communication.h"
 #include "file_operations.h"
+#include "utilities.h"
+#include "status_codes.h"
 
 
 int msgid = -1;
@@ -32,10 +34,9 @@ int main()
             clean(SIGINT);
         }
         
-        
-        printf("received message = %s\n", data.text);
+        // printf("received message = %s\n", data.text);
 
-        int status = 1;
+        int status = OK;
 
         char query_type[N] = {'\0'};
         char username[MAX_USERNAME_LENGTH] = {'\0'};
@@ -51,10 +52,8 @@ int main()
         {
             status = check(username, a);    // match with the entry from the file
 
-            if(status == -2)
-            {
-                printf("\aALRAM!!! HONEYWORD HIT!\n");
-            }
+            if(status == HONEYWORD_HIT)
+                raise_alarm(username, HONEYWORD_HIT);
         }
 
 

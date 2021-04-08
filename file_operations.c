@@ -13,12 +13,12 @@
 int username_registered(char *username)
 {
     if(username == NULL)    /* NULL input not allowed */
-        return 0;
+        return -1;
     
     FILE *fptr = fopen(file1, "r"); /* open 'F1' file */
 
     if(fptr == NULL)
-        return 0;
+        return -1;
     
 
     char tmp[MAX_LINE_LENGTH];
@@ -26,7 +26,7 @@ int username_registered(char *username)
     size_t a = MAX_LINE_LENGTH;
     size_t len;
     
-    int res = 0;
+    int res = -1;
 
     /* examine each username in the file */
     while((len = getline(&lineptr, &a, fptr)) != EOF)
@@ -235,7 +235,7 @@ int get_file1_entry(char result[], char username[])
     }
 
     if(cnt <= HONEYPOT_COUNT)   // some honeypot account hit
-        return -3;
+        return HONEYPOT_HIT;
 
     return 1;
 }
@@ -261,7 +261,7 @@ int match_with_file2(char num[], char hashed[])
     size_t len = 0;
     char *lineptr = line;
 
-    int res = -1;
+    int res = WRONG_PASSWORD;
 
     while((len = getline(&lineptr, &a, fptr)) != EOF)
     {
@@ -283,7 +283,7 @@ int match_with_file2(char num[], char hashed[])
             }
         }
 
-        if(res != -1)
+        if(res != WRONG_PASSWORD)
             break;
     }
 
@@ -313,7 +313,7 @@ int set(char username[], int a)
 
     fclose(fptr);
 
-    return 1;
+    return OK;
 }
 
 
@@ -326,7 +326,7 @@ int check(char username[], int a)
     
     char tmp[N] = {'\0'};
 
-    int res = -2;
+    int res = HONEYWORD_HIT;
 
     while(fscanf(fptr, "%s", tmp) != EOF)
     {
@@ -336,9 +336,9 @@ int check(char username[], int a)
         if(strcmp(username, tmp) == 0)
         {
             if(a == b)
-                res = 1;
+                res = OK;
             else
-                res = -2;
+                res = HONEYWORD_HIT;
 
             break;
         }

@@ -1,7 +1,7 @@
 #include "crypt.h"
 
 
-/* function to return MD5 hash value of a given input string */
+/* This function returns MD5 hash value of a given input string */
 void get_MD5(unsigned char *result, const unsigned char *input)
 {
     unsigned char tmp[20] = {'\0'};

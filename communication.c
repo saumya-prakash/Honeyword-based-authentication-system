@@ -5,8 +5,6 @@ int get_msgid()
     return msgget(message_queue_key, 0666 | IPC_CREAT);
 }
 
-// clean(int a) finction needed for non-existent message queue case-handling????? 
-
 
 
 /*===================================================
@@ -47,7 +45,7 @@ int username_available(int msgid, char *username)
     int status;
     sscanf(response.text, "%d", &status);
 
-    return !status;
+    return status;
 }
 
 

@@ -56,3 +56,20 @@ int convert_to_int_array(int arr[], char num[])
 
     return a;
 }
+
+
+/* This function raises an alarm by ringing an alert bell and printing diagnostic message */
+void raise_alarm(char username[], int type)
+{
+    printf("\a");
+    if(type == HONEYPOT_HIT)
+        printf("ALARM!!! HONEYPOT HIT!\n");
+    else if(type == HONEYWORD_HIT)
+        printf("ALARM!!! HONEYWORD HIT\n");
+    
+    printf("entered username - %s\n", username);
+    
+    printf("\n");
+
+    return ;
+}

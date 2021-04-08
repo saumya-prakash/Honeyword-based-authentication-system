@@ -57,4 +57,4 @@ utilities.o: utilities.c
 
 # deleting the object file, executables
 clean:
-		rm -f a.out *.o client server
+		rm -f a.out *.o client server honeychecker

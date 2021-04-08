@@ -1,6 +1,8 @@
 #include "crypt.h"
 #include "communication.h"
 #include "file_operations.h"
+#include "utilities.h"
+#include "status_codes.h"
 
 int msgid = -1;
 
@@ -89,9 +91,9 @@ int verify_credentials(char message[])
     char num[MAX_LINE_LENGTH] = {'\0'};
     int res = get_file1_entry(num, username);
 
-    if(res == -3)   // detect if it is a honeypot account
+    if(res == HONEYPOT_HIT)   // detect if it is a honeypot account
     {
-        printf("\aALRAM!!! HONEYPOT ACCOUNT HIT!");
+        raise_alarm(username, HONEYPOT_HIT);
         return res;
     }
 
@@ -99,7 +101,7 @@ int verify_credentials(char message[])
     // match with entries from F2
     int a = match_with_file2(num, (char*) hashed);
 
-    if(a == -1)
+    if(a == WRONG_PASSWORD)
     {
         printf("Wrong password\n");
         return a;
@@ -108,6 +110,12 @@ int verify_credentials(char message[])
 
     // verify the match with the honeychecker
     res = check_user(msgid, username, a);
+
+    if(res == HONEYWORD_HIT)
+    {
+        raise_alarm(username, HONEYWORD_HIT);
+        return res;
+    }
 
     // return suitable status code
     return res;

@@ -37,6 +37,7 @@ rockyou.txt
 # Executables
 client
 server
+honeychecker
 *.exe
 *.out
 *.app

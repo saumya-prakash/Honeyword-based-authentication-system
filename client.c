@@ -39,12 +39,10 @@ void create_new_account()
     printf("Enter a username:");    // input username
     scanf("%s", username);
 
-    while(username_available(msgid, username) == 0) // check if username is already registered
+    while(username_available(msgid, username) > 0) // check if username is already registered
     {    
         printf("Username already taken. Try again.\n\n");
-    
-        printf("Enter a username:");
-        scanf("%s", username);
+        return ;
     }
 
 
