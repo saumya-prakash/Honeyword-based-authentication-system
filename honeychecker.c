@@ -24,7 +24,6 @@ int main()
     while(1)
     {
         struct mesg data;
-
         int res = msgrcv(msgid, &data, sizeof(data.text), 3, 0);
         
         if(res < 0)
@@ -38,18 +37,15 @@ int main()
 
         int status = 1;
 
-        char query_type[50] = {'\0'};
-        char username[N] = {'\0'};
+        char query_type[N] = {'\0'};
+        char username[MAX_USERNAME_LENGTH] = {'\0'};
         int a;
 
         sscanf(data.text, "%s %s %d", query_type, username, &a);
 
         if(strcmp(query_type, "set") == 0)
-        {
-            int res = set(username, a); // store in the file
-            
-            // if(res != -1)
-        }
+            status = set(username, a); // store in the file
+
 
         else if(strcmp(query_type, "check") == 0)
         {
@@ -59,7 +55,6 @@ int main()
             {
                 printf("\aALRAM!!! HONEYWORD HIT!\n");
             }
-
         }
 
 

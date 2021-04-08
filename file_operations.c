@@ -1,13 +1,15 @@
-/* ---------------------------------------------------------------------
-This file contains the definitions of various file-related functions 
-----------------------------------------------------------------------*/
-
 
 #include "file_operations.h"
 #include "utilities.h"
 
 
-/* function to check if a given username is registered */
+
+/*==================================================================
+    server functions
+====================================================================*/
+
+
+/* This function checks if a given username is registered or not */
 int username_registered(char *username)
 {
     if(username == NULL)    /* NULL input not allowed */
@@ -24,6 +26,7 @@ int username_registered(char *username)
     size_t a = MAX_LINE_LENGTH;
     size_t len;
     
+    int res = 0;
 
     /* examine each username in the file */
     while((len = getline(&lineptr, &a, fptr)) != EOF)
@@ -34,18 +37,21 @@ int username_registered(char *username)
         
         tmp[i] = '\0';
 
-        if(strcmp(username, tmp) == 0)
-            return 1;
+        if(strcmp(username, tmp) == 0)  // username found in the file
+        {
+            res = 1;
+            break;
+        }
     }
 
 
     fclose(fptr);   /* close the file */
 
-    return 0;
+    return res;
 }
 
 
-
+/* This function returns a random index for a new user */
 int get_random_index()
 {
     FILE *fptr = fopen(file2, "r");
@@ -61,6 +67,7 @@ int get_random_index()
     
     char line[MAX_LINE_LENGTH] = {'\0'};
 
+    // mark numbers that have already been used
     while(fscanf(fptr, "%s", line) != EOF)
     {
         char *colon = strstr(line, ":");    // locate the colon    
@@ -70,12 +77,13 @@ int get_random_index()
         arr[num] = 1;
     }
 
-    fclose(fptr);
+    fclose(fptr);   // close the file
 
 
     int brr[MAX_USERS] = {0};
     int n = 0, a = 0;
 
+    // collect only unused numbers in brr[] array
     for(i=0; i<MAX_USERS; i++)
     {
         if(arr[i] == 0)
@@ -92,12 +100,13 @@ int get_random_index()
     // get a random index
     int index = (int)(2*drand48()*n) % n;
 
-    // return element at the random index
+    // return element at the random index from brr[] array
     return brr[index];
 }
 
 
 
+/* This function returns a honeyindex set of size 'k' */
 int get_honeyindex_set(int honeyset[], int a, int k)
 {
     FILE *fptr = fopen(file2, "r");
@@ -110,7 +119,7 @@ int get_honeyindex_set(int honeyset[], int a, int k)
     char line[MAX_LINE_LENGTH] = {'\0'};
 
     int i = 0;    
-    while(fscanf(fptr, "%s", line) != EOF)
+    while(fscanf(fptr, "%s", line) != EOF)  // get the indexes from file2
     {
         char *colon = strstr(line, ":");    // locate the colon
         *colon = '\0';  // extract the index part
@@ -122,13 +131,10 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
     fclose(fptr);   // close the file 
 
+
     int n = i;
 
     // select k-1 elements from arr[] randomly
-    // append 'a' to set[]
-    // randomly permutate set[]
-    // return
-
     for(i=0; i<k-1; i++)
     {
         int index = (int)(2*n*drand48()) % n;
@@ -141,6 +147,7 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
     honeyset[k-1] = a;
 
+    // randomly permutate honeyset[]
     permutate_array(honeyset, k);
 
     return 1;
@@ -149,7 +156,7 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
 
 
-
+/* This function adds an entry to file1 */
 int add_to_file1(char username[], int honeyset[], int k)
 {
     FILE *fptr = fopen(file1, "a");
@@ -173,6 +180,7 @@ int add_to_file1(char username[], int honeyset[], int k)
 }
 
 
+/* This function adds an entry to file2 */
 int add_to_file2(int a, char hashed[])
 {
     FILE *fptr = fopen(file2, "a");
@@ -191,16 +199,17 @@ int add_to_file2(int a, char hashed[])
 
 
 
-
+/* This function gets the corresponding entry from file1 for a given username; also
+   detects if some HONEYPOT account is hit */ 
 int get_file1_entry(char result[], char username[])
 {
     FILE *fptr = fopen(file1, "r");
 
-    if(fptr == NULL)
+    if(fptr == NULL)    // error in opening file
         return -1;
     
 
-    char tmp[N];
+    char tmp[MAX_USERNAME_LENGTH] = {'\0'};
 
     int cnt = 0;
     int found = 0;
@@ -225,7 +234,6 @@ int get_file1_entry(char result[], char username[])
         return -2;
     }
 
-
     if(cnt <= HONEYPOT_COUNT)   // some honeypot account hit
         return -3;
 
@@ -233,7 +241,7 @@ int get_file1_entry(char result[], char username[])
 }
 
 
-
+/* This function matches a given index set and a hashed value with the entries in file2 */
 int match_with_file2(char num[], char hashed[])
 {
     int arr[MAX_K] = {0};
@@ -244,7 +252,7 @@ int match_with_file2(char num[], char hashed[])
     
     FILE *fptr = fopen(file2, "r");
 
-    if(fptr == NULL)
+    if(fptr == NULL)    // file cannot be opened
         return -1;
     
     
@@ -337,7 +345,6 @@ int check(char username[], int a)
     }
 
     fclose(fptr);
-
 
     return res;
 }

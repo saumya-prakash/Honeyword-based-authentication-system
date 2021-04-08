@@ -11,14 +11,115 @@ void clean(int a)
 }
 
 
+int check_for_username(char message[])
+{
+    char username[MAX_USERNAME_LENGTH] = {'\0'};
+    char query_type[N] = {'\0'};
+    sscanf(message, "%s %s", query_type, username);
+
+    return username_registered(username);
+}
+
+
+int add_user(char message[])
+{
+    char query_type[N] = "\0";
+    char username[MAX_USERNAME_LENGTH] = {'\0'};
+    unsigned char password[N] = {'\0'};
+    int k = MIN_K;
+
+    // extract usernmae, k and password
+    sscanf(message, "%s %s %d %s", query_type, username, &k, password);
+    
+    if(k < MIN_K)
+        k = MIN_K;
+    if(k > MAX_K)
+        k = MAX_K;
+
+    unsigned char hashed[N] = {'\0'};
+    get_MD5(hashed, password);  // get MD5 of the password
+    
+    int a = get_random_index(); // assign a random index
+
+    if(a < 0)   // error happened
+        return a;
+
+
+    int honeyset[k];
+    int res = get_honeyindex_set(honeyset, a, k); // get a honeyindex set
+    if(res < 0)
+        return res;
+
+    printf("username = %s\n", username);
+    printf("password = %s\n", hashed);
+    printf("random_index = %d\n", a);
+    int i;
+    for(i=0; i<k; i++)
+        printf("%d ", honeyset[i]);
+    printf("\n");
+
+    // send <username, correct_index> to honeychecker
+    res = set_user(msgid, username, a);
+    if(res < 0)
+        return res;
+
+    // add the entry to F1 and F2(update F2 after getting the honeyindex set) - OK
+    add_to_file1(username, honeyset, k);
+    add_to_file2(a, (char*) hashed);
+
+    
+    return 1;
+}
+
+
+
+int verify_credentials(char message[])
+{
+    char query_type[N] = {'\0'};
+    char username[MAX_USERNAME_LENGTH] = {'\0'};
+    unsigned char password[N] = {'\0'};
+    // extract username and password
+    sscanf(message, "%s %s %s", query_type, username, password);
+
+    // get MD5 of the password
+    unsigned char hashed[50] = {'\0'};
+    get_MD5(hashed, password);
+
+    // get the honeyindex set from F1
+    char num[MAX_LINE_LENGTH] = {'\0'};
+    int res = get_file1_entry(num, username);
+
+    if(res == -3)   // detect if it is a honeypot account
+    {
+        printf("\aALRAM!!! HONEYPOT ACCOUNT HIT!");
+        return res;
+    }
+
+
+    // match with entries from F2
+    int a = match_with_file2(num, (char*) hashed);
+
+    if(a == -1)
+    {
+        printf("Wrong password\n");
+        return a;
+    }
+
+
+    // verify the match with the honeychecker
+    res = check_user(msgid, username, a);
+
+    // return suitable status code
+    return res;
+}
+
 
 int main()
 {
-    signal(SIGINT, clean);
+    signal(SIGINT, clean);  // for handling unexpected terminations
+    srand48(time(NULL));    // seed random-number generator
 
-    srand48(time(NULL));
-
-    msgid = get_msgid();
+    msgid = get_msgid();    // get message-queue key
 
     printf("Server is running...\n\n");
 
@@ -26,10 +127,10 @@ int main()
     while(1)
     {
         struct mesg data;
-
+        // get a message from the queue
         int res = msgrcv(msgid, &data, sizeof(data.text), 1, 0);
         
-        if(res < 0)
+        if(res < 0) // if queue is broken, then terminate
         {
             printf("comunication channel broken\n");
             clean(SIGINT);
@@ -39,103 +140,22 @@ int main()
 
         int status = 1;
 
-        char query_type[50] = {'\0'};
+        char query_type[N] = {'\0'};
         sscanf(data.text, "%s", query_type);
         printf("query_type = %s\n", query_type);
 
 
         if(strcmp(query_type, "username_registered") == 0)
-        {
-            char username[N];
-            sscanf(data.text, "%s %s", query_type, username);
-
-            int res = username_registered(username);
-
-            status = res;
-        }
+            status = check_for_username(data.text);
 
 
         else if(strcmp(query_type, "register") == 0)
-        {
-            char username[N] = {'\0'};
-            unsigned char password[N] = {'\0'};
-            int k = 6;
-            // extract usernmae, k and password
-            sscanf(data.text, "%s %s %d %s", query_type, username, &k, password);
-            
-            if(k < 6)
-                k = 6;
-            if(k > 20)
-                k = 20;
+            status = add_user(data.text);
 
-            unsigned char hashed[50] = {'\0'};
-            get_MD5(hashed, password);  // get MD5 of the password
-            
-            int a = get_random_index(); // assign a random index
-
-            int honeyset[k];
-
-            get_honeyindex_set(honeyset, a, k); // get a honeyindex set - OK
-
-            printf("username = %s\n", username);
-            printf("password = %s\n", hashed);
-            printf("random_index = %d\n", a);
-            int i;
-            for(i=0; i<k; i++)
-                printf("%d ", honeyset[i]);
-            printf("\n");
-
-            // send <username, correct_index> to honeychecker
-            set_user(msgid, username, a);
-
-            // add the entry to F1 and F2(update F2 after getting the honeyindex set) - OK
-            add_to_file1(username, honeyset, k);
-            add_to_file2(a, (char*) hashed);
-
-            // return the status
-            
-        }
 
         else if(strcmp(query_type, "check") == 0)
-        {
-            char username[N] = {'\0'};
-            unsigned char password[N] = {'\0'};
-            // extract username and password
-            sscanf(data.text, "%s %s %s", query_type, username, password);
+            status = verify_credentials(data.text);
 
-            // get MD5 of the password
-            unsigned char hashed[50] = {'\0'};
-            get_MD5(hashed, password);
-
-            // get the honeyindex set from F1
-            char num[MAX_LINE_LENGTH] = {'\0'};
-            int res = get_file1_entry(num, username);
-
-            if(res == -3)   // detect if it is a honeypot account
-            {
-                status = -1;
-                printf("\aALRAM!!! HONEYPOT ACCOUNT HIT!");
-            }
-
-            else
-            {
-                // match with entries from F2
-                int b = match_with_file2(num, (char*) hashed);
-
-                if(b == -1)
-                {
-                    status = -1;
-                    printf("Wrong password\n");
-                }
-
-                else
-                {
-                    // verify the match with the honeychecker
-                    
-                    // return suitable status code
-                }
-            }
-        }
 
         struct mesg response;
         response.type = 2;

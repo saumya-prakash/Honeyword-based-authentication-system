@@ -41,6 +41,7 @@ int username_available(int msgid, char *username)
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
+
     msgrcv(msgid, &response, sizeof(response.text), 2, 0);
 
     int status;
@@ -48,6 +49,7 @@ int username_available(int msgid, char *username)
 
     return !status;
 }
+
 
 
 int register_user(int msgid, char *username, char *password, int k)
@@ -59,6 +61,7 @@ int register_user(int msgid, char *username, char *password, int k)
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
+
     msgrcv(msgid, &response, sizeof(response.text), 2, 0);
 
     int status;
@@ -66,6 +69,7 @@ int register_user(int msgid, char *username, char *password, int k)
 
     return status;
 }
+
 
 
 
@@ -83,6 +87,7 @@ int set_user(int msgid, char username[], int a)
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
+
     msgrcv(msgid, &response, sizeof(response.text), 4, 0);
 
     int status;
@@ -102,6 +107,7 @@ int check_user(int msgid, char username[], int a)
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
+    
     msgrcv(msgid, &response, sizeof(response.text), 4, 0);
 
     int status;

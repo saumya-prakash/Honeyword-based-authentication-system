@@ -21,9 +21,10 @@ void permutate_array(int arr[], int n)
 
 
 
+/* function to convert a string if numbers to an array of integers */
 int convert_to_int_array(int arr[], char num[])
 {
-    char tmp[30] = {'\0'};
+    char tmp[50] = {'\0'};
 
     int a = 0;
     int i = 0;

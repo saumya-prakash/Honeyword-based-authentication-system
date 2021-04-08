@@ -8,24 +8,22 @@ int msgid = -1;
 
 void login()
 {
-    char username[N];
+    char username[MAX_USERNAME_LENGTH] = {'\0'};
     char *password;
 
-    printf("Enter username:");
-
+    printf("Enter username:");  // input username
     scanf("%s", username);
 
-    password = getpass("Enter password:");
+    password = getpass("Enter password:");  // input password without echoing
 
+    // check the inputted credentials with the server
     int status = check_credentials(msgid, username, password);
 
     if(status == 1)
         printf("Login Successful!\n");
 
-    else if(status == -1)
+    else if(status < 0)
         printf("Username or password wrong\n");
-    
-    
 
 
     return ;
@@ -34,13 +32,14 @@ void login()
 
 void create_new_account()
 {
-    char username[N], password[N];
+    char username[MAX_USERNAME_LENGTH] = {'\0'};
+    char password[N] = {'\0'};
     char *p1;
 
-    printf("Enter a username:");
+    printf("Enter a username:");    // input username
     scanf("%s", username);
 
-    while(username_available(msgid, username) == 0)
+    while(username_available(msgid, username) == 0) // check if username is already registered
     {    
         printf("Username already taken. Try again.\n\n");
     
@@ -49,7 +48,7 @@ void create_new_account()
     }
 
 
-    p1 = getpass("Enter a password (should be 8-12 characters):");
+    p1 = getpass("Enter a password (should be 8-12 characters):");  // input password
     
     if(strlen(p1) < 8 || strlen(p1) > 12)
     {
@@ -57,20 +56,21 @@ void create_new_account()
         return ;
     }
 
-    strcpy(password, p1);
+    strcpy(password, p1);   // put password in the buffer
 
-    p1 = getpass("Enter the password again:");
+    p1 = getpass("Enter the password again:");  // ask to repeat the password
 
-    if(strcmp(password, p1) != 0)
+    if(strcmp(password, p1) != 0)   // if passwords do not match
     {
         printf("Passwords do not match. Try Again!\n");
         return ;
     }
 
     int k;
-    printf("Enter k [default is 6]: ");
+    printf("Enter k [default is 6]: "); // input k
     scanf("%d", &k);
     
+    // communicate with server to register the user
     int status = register_user(msgid, username, password, k);
 
     if(status == 1)
@@ -82,21 +82,24 @@ void create_new_account()
 }
 
 
+
 int main()
 {
     printf("Welcome to the Authentication System.\n\n");
 
-    msgid = get_msgid();
+
+    msgid = get_msgid();    // get message-queue key
 
     int option = 0;
 
     while(option != 3)
     {
-        printf("Select an option:\n");
+        printf("Options:\n");
         printf("\t1 - Login\n");
         printf("\t2 - Create a new account\n");
-        printf("\t3 - Exit\n");
+        printf("\t3 - Exit\n\n");
 
+        printf("Select an option: ");
         scanf("%d", &option);
 
         switch(option)
