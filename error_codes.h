@@ -1,0 +1,5 @@
+
+
+#define LOGIN_SUCCESSFUL 1
+#define LOGIN_FAILED 2
+

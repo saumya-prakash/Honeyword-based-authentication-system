@@ -36,14 +36,14 @@ int main()
 
         sscanf(data.text, "%s %s %d", query_type, username, &a);
 
-        if(strcmp(query_type, "SET") == 0)
+        if(strcmp(query_type, "set") == 0)
         {
             int res = set(username, a); // store in the file
             
             // if(res != -1)
         }
 
-        else if(strcmp(query_type, "CHECK") == 0)
+        else if(strcmp(query_type, "check") == 0)
         {
             status = check(username, a);    // match with the entry from the file
 

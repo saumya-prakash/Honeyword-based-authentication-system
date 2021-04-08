@@ -24,13 +24,9 @@ void login()
 
     else if(status == -1)
         printf("Username or password wrong\n");
+    
+    
 
-    else if(status == -2)
-        printf("Honeypot account hit - ALARM!!!\n");
-    
-    else if(status == -3)
-        printf("Honeyword hit - ALARM!!!\n");
-    
 
     return ;
 }

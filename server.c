@@ -37,7 +37,7 @@ int main()
         printf("query_type = %s\n", query_type);
 
 
-        if(strcmp(query_type, "USERNAME_REGISTERED") == 0)
+        if(strcmp(query_type, "username_registered") == 0)
         {
             char username[N];
             sscanf(data.text, "%s %s", query_type, username);
@@ -48,7 +48,7 @@ int main()
         }
 
 
-        else if(strcmp(query_type, "REGISTER") == 0)
+        else if(strcmp(query_type, "register") == 0)
         {
             char username[N] = {'\0'};
             unsigned char password[N] = {'\0'};
@@ -89,7 +89,7 @@ int main()
             
         }
 
-        else if(strcmp(query_type, "CHECK") == 0)
+        else if(strcmp(query_type, "check") == 0)
         {
             char username[N] = {'\0'};
             unsigned char password[N] = {'\0'};
