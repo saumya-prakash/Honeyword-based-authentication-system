@@ -2,7 +2,7 @@
 #include "communication.h"
 #include "file_operations.h"
 
-int msgid;
+int msgid = -1;
 
 void clean(int a)
 {
@@ -18,22 +18,24 @@ int main()
 
     srand48(time(NULL));
 
-    printf("Server is running...\n\n");
-
     msgid = get_msgid();
 
-    struct mesg data;
+    printf("Server is running...\n\n");
 
+    /* always-on server */
     while(1)
     {
+        struct mesg data;
+
         msgrcv(msgid, &data, sizeof(data.text), 1, 0);
         printf("received message = %s\n", data.text);
+
+        int res = 1;
 
         char query_type[50] = {'\0'};
         sscanf(data.text, "%s", query_type);
         printf("query_type = %s\n", query_type);
 
-        int res = 1;
 
         if(strcmp(query_type, "USERNAME_REGISTERED") == 0)
         {

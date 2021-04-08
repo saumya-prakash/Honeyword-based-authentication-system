@@ -3,7 +3,7 @@ CFLAGS = -Wall -g
 LDFLAGS = -lcrypto
 
 
-all: client server
+all: client server honeychecker
 
 
 # Commmands for creating the executables
@@ -18,6 +18,9 @@ server: server.o crypt.o communication.o file_operations.o utilities.o
 
 
 
+honeychecker: honeychecker.o file_operations.o communication.o utilities.o
+				$(CC) honeychecker.o file_operations.o communication.o utilities.o -o honeychecker
+
 
 
 # Commands for creating object files
@@ -27,6 +30,10 @@ client.o: client.c
 
 server.o: server.c
 			$(CC) $(CFLAGS) -c server.c
+
+honeychecker.o: honeychecker.c
+				$(CC) $(CFLAGS) -c honeychecker.c
+
 
 
 crypt.o: crypt.c

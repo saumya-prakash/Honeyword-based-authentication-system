@@ -131,7 +131,6 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
     for(i=0; i<k-1; i++)
     {
-        printf("n = %d\n", n);
         int index = (int)(2*n*drand48()) % n;
 
         honeyset[i] = arr[index];
