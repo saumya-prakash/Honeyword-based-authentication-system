@@ -1,3 +1,7 @@
+/**********************************************************************************
+ * This header file contains declarations for crytographic-hash related functions.
+ * ********************************************************************************/
+
 #include <string.h>
 #include <openssl/md5.h>
 

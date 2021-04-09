@@ -1,5 +1,7 @@
 #include "communication.h"
 
+
+/* This function creates a message-queue and returns its identifier */
 int get_msgid()
 {
     return msgget(message_queue_key, 0666 | IPC_CREAT);
@@ -11,6 +13,8 @@ int get_msgid()
 client-to-server communication functions
 =====================================================*/
 
+
+/* This functions communicates with the server to verify the provided credentials */
 int check_credentials(int msgid, char *username, char *password)
 {
     struct mesg data;
@@ -30,6 +34,8 @@ int check_credentials(int msgid, char *username, char *password)
 }
 
 
+/* This function communicates with the server to check if the provided username is
+already registered */
 int username_available(int msgid, char *username)
 {
     struct mesg data;
@@ -49,7 +55,8 @@ int username_available(int msgid, char *username)
 }
 
 
-
+/* This function communicates with the server to resgister a new user with provided
+credentials */
 int register_user(int msgid, char *username, char *password, int k)
 {
     struct mesg data;
@@ -76,6 +83,8 @@ server-to-honeychecker communication functions
 ===========================================================*/
 
 
+/* This function communicates with the honeychecker to add a new user entry to honeychekcer's
+file */ 
 int set_user(int msgid, char username[], int a)
 {
     struct mesg data;
@@ -95,7 +104,8 @@ int set_user(int msgid, char username[], int a)
 }
 
 
-
+/* This function communicates with the honeychecker to verify the matched index for 
+a user */ 
 int check_user(int msgid, char username[], int a)
 {
     struct mesg data;

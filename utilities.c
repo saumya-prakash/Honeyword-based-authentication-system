@@ -1,5 +1,7 @@
 #include "utilities.h"
 
+
+/* This function randomly permutates a given array */
 void permutate_array(int arr[], int n)
 {
     int i;
@@ -21,7 +23,7 @@ void permutate_array(int arr[], int n)
 
 
 
-/* function to convert a string if numbers to an array of integers */
+/* This function converts a string of integers to an array of integers */
 int convert_to_int_array(int arr[], char num[])
 {
     char tmp[50] = {'\0'};
@@ -58,7 +60,8 @@ int convert_to_int_array(int arr[], char num[])
 }
 
 
-/* This function raises an alarm by ringing an alert bell and printing diagnostic message */
+/* This function raises an alarm by ringing an alert bell and printing diagnostic
+message */
 void raise_alarm(char username[], int type)
 {
     printf("\a");

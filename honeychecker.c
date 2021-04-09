@@ -1,3 +1,9 @@
+/***************************************************************************************
+ * This file contains code for 'honeychecker' that can be only communicated via 'server'
+ * program.
+ * *************************************************************************************/
+
+
 #include "communication.h"
 #include "file_operations.h"
 #include "utilities.h"

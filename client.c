@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This file contains the 'client' program source code. This program interacts
+ * with the user. 
+ * *****************************************************************************/
+
+
 #include "headers.h"
 #include "communication.h"
 #include "utilities.h"
@@ -41,7 +47,7 @@ void create_new_account()
 
     while(username_available(msgid, username) > 0) // check if username is already registered
     {    
-        printf("Username already taken. Try again.\n\n");
+        printf("Username already taken. Try again.\n");
         return ;
     }
 

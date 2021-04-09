@@ -1,3 +1,8 @@
+/***********************************************************************************
+ * This header files contains the declarations for file-related functions. The
+ * functions process respective files.
+ * *********************************************************************************/
+
 #include "headers.h"
 
 

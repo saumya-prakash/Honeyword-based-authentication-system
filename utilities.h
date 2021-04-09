@@ -1,3 +1,7 @@
+/***********************************************************************************
+ * This header file contains declarations for miscellaneous utility functions.
+ * *********************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "status_codes.h"

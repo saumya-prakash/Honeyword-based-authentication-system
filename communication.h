@@ -1,3 +1,7 @@
+/************************************************************************************
+ * This header file contains the declarations for communication-related functions.
+ * **********************************************************************************/
+
 #include "headers.h"
 
 #include <sys/msg.h>

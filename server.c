@@ -1,3 +1,9 @@
+/**************************************************************************************
+ * This file contains the code for 'server' program that handles 'F1' and 'F2' files
+ * and communicates with the honeychecker.
+ * ************************************************************************************/
+
+
 #include "crypt.h"
 #include "communication.h"
 #include "file_operations.h"

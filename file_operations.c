@@ -51,6 +51,7 @@ int username_registered(char *username)
 }
 
 
+
 /* This function returns a random index for a new user */
 int get_random_index()
 {
@@ -180,6 +181,7 @@ int add_to_file1(char username[], int honeyset[], int k)
 }
 
 
+
 /* This function adds an entry to file2 */
 int add_to_file2(int a, char hashed[])
 {
@@ -200,7 +202,7 @@ int add_to_file2(int a, char hashed[])
 
 
 /* This function gets the corresponding entry from file1 for a given username; also
-   detects if some HONEYPOT account is hit */ 
+detects if some HONEYPOT account is hit */ 
 int get_file1_entry(char result[], char username[])
 {
     FILE *fptr = fopen(file1, "r");
@@ -241,7 +243,8 @@ int get_file1_entry(char result[], char username[])
 }
 
 
-/* This function matches a given index set and a hashed value with the entries in file2 */
+/* This function matches a given index set and a hashed value with the entries
+in file2 */
 int match_with_file2(char num[], char hashed[])
 {
     int arr[MAX_K] = {0};
@@ -300,6 +303,9 @@ int match_with_file2(char num[], char hashed[])
     honeychecker functions
 =================================================================*/
 
+
+/* This function adds an entry, <username sugarindex> to the honeychecker's
+file */
 int set(char username[], int a)
 {
     FILE *fptr = fopen(index_file, "a");
@@ -317,6 +323,7 @@ int set(char username[], int a)
 }
 
 
+/* This function checks if the matched index for a user matches the sugarword */
 int check(char username[], int a)
 {
     FILE *fptr = fopen(index_file, "r");
