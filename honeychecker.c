@@ -24,7 +24,7 @@ int main()
 {
     signal(SIGINT, clean);
 
-    msgid = get_msgid();
+    msgid = get_msgid();    // get message-queue id
 
     printf("Honeychecker is running...\n\n");
 
@@ -48,7 +48,9 @@ int main()
         char username[MAX_USERNAME_LENGTH] = {'\0'};
         int a;
 
+        // extract respective fields from the message
         sscanf(data.text, "%s %s %d", query_type, username, &a);
+
 
         if(strcmp(query_type, "set") == 0)
             status = set(username, a); // store in the file

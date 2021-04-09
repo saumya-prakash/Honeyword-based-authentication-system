@@ -1,3 +1,7 @@
+/************************************************************************************
+ * This file contains various status codes that are returned by different functions.
+ * **********************************************************************************/
+
 
 #define OK 1
 #define LOGIN_SUCCESSFUL 2

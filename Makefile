@@ -6,7 +6,7 @@ LDFLAGS = -lcrypto
 all: client server honeychecker
 
 
-# Commmands for creating the executables
+# Create executables
 
 client: client.o communication.o
 			$(CC) client.o communication.o -o client
@@ -23,7 +23,7 @@ honeychecker: honeychecker.o file_operations.o communication.o utilities.o
 
 
 
-# Commands for creating object files
+# Create object files
 
 client.o: client.c
 			$(CC) $(CFLAGS) -c client.c
@@ -55,6 +55,6 @@ utilities.o: utilities.c
 
 
 
-# deleting the object file, executables
+# Delete the object files, executables
 clean:
 		rm -f a.out *.o client server honeychecker

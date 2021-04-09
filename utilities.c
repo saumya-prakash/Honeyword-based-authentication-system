@@ -64,7 +64,8 @@ int convert_to_int_array(int arr[], char num[])
 message */
 void raise_alarm(char username[], int type)
 {
-    printf("\a");
+    printf("\a");   // sound alert bell
+    
     if(type == HONEYPOT_HIT)
         printf("ALARM!!! HONEYPOT HIT!\n");
     else if(type == HONEYWORD_HIT)
