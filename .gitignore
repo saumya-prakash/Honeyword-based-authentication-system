@@ -1,8 +1,14 @@
 # Extra files
 exp.c
+cre1.c
+cre2.c
 sample
+passwds
+usrnmes
 rockyou.txt
 .vscode
+*.log
+*.rec
 
 # Prerequisites
 *.d

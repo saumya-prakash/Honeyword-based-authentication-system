@@ -14,10 +14,10 @@
 #define file1 "F1"
 #define file2 "F2"
 
-#define index_file "index"
+#define index_file "sugar_index"
 
 
-#define HONEYPOT_COUNT 2
+#define HONEYPOT_COUNT 50
 
 
 /*============================================================

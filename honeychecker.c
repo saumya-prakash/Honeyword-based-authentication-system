@@ -40,7 +40,7 @@ int main()
             clean(SIGINT);
         }
         
-        // printf("received message = %s\n", data.text);
+        printf("received message = %s\n", data.text);
 
         int status = OK;
 

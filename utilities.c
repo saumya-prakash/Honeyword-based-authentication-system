@@ -67,7 +67,7 @@ void raise_alarm(char username[], int type)
     printf("\a");   // sound alert bell
     
     if(type == HONEYPOT_HIT)
-        printf("ALARM!!! HONEYPOT HIT!\n");
+        printf("ALARM!!! HONEYPOT ACCOUNT HIT!\n");
     else if(type == HONEYWORD_HIT)
         printf("ALARM!!! HONEYWORD HIT\n");
     

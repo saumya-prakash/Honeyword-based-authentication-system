@@ -103,16 +103,20 @@ int verify_credentials(char message[])
         return res;
     }
 
-
+    if(res == ERROR)
+    {
+        printf("Wrong username or password\n");
+        return res;
+    }
+    
     // match with entries from F2
     int a = match_with_file2(num, (char*) hashed);
 
-    if(a == WRONG_PASSWORD)
+    if(a == WRONG_PASSWORD || a == ERROR)
     {
-        printf("Wrong password\n");
+        printf("Wrong username or password\n");
         return a;
     }
-
 
     // verify the match with the honeychecker
     res = check_user(msgid, username, a);

@@ -233,8 +233,9 @@ int get_file1_entry(char result[], char username[])
     if(found == 0)  // username not found
     {
         result[0] = '\0';
-        return -2;
+        return -1;
     }
+
 
     if(cnt <= HONEYPOT_COUNT)   // some honeypot account hit
         return HONEYPOT_HIT;
