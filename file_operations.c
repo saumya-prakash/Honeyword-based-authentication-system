@@ -226,6 +226,10 @@ int get_file1_entry(char result[], char username[])
             found = 1;
             break;
         }
+
+        else
+            fscanf(fptr, "%[^\n]s", tmp);
+
     }
 
     fclose(fptr);
@@ -235,7 +239,6 @@ int get_file1_entry(char result[], char username[])
         result[0] = '\0';
         return -1;
     }
-
 
     if(cnt <= HONEYPOT_COUNT)   // some honeypot account hit
         return HONEYPOT_HIT;
