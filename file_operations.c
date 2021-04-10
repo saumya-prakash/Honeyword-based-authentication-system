@@ -108,7 +108,7 @@ int get_random_index()
 
 
 /* This function returns a honeyindex set of size 'k' */
-int get_honeyindex_set(int honeyset[], int a, int k)
+int get_honeyindex_set(int honeyset[], int a, int k, char hashed[])
 {
     FILE *fptr = fopen(file2, "r");
 
@@ -124,10 +124,15 @@ int get_honeyindex_set(int honeyset[], int a, int k)
     {
         char *colon = strstr(line, ":");    // locate the colon
         *colon = '\0';  // extract the index part
+        
+        char *tmp = colon+1;    // extract the hash value
 
-        int num = atoi(line);
-        arr[i] = num;
-        i++;
+        if(strcmp(hashed, tmp) != 0)    // check if the hash in file doesn't match provided hash
+        {
+            int num = atoi(line);
+            arr[i] = num;
+            i++;
+        }
     }
 
     fclose(fptr);   // close the file 
@@ -153,7 +158,6 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
     return 1;
 }
-
 
 
 

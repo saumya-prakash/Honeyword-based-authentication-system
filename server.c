@@ -58,7 +58,7 @@ int add_user(char message[])
 
 
     int honeyset[k];
-    int res = get_honeyindex_set(honeyset, a, k); // get a honeyindex set
+    int res = get_honeyindex_set(honeyset, a, k, (char*) hashed); // get a honeyindex set
     if(res < 0)
         return res;
 
