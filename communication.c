@@ -21,11 +21,12 @@ int check_credentials(int msgid, char *username, char *password)
     struct mesg data;
 
     data.type = 1;
-    sprintf(data.text, "check %s %s", username, password);    // send hashed password maybe??
+    sprintf(data.text, "check %s %s", username, password);
+    //send message to server
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
-
+    // get reply from server
     msgrcv(msgid, &response, sizeof(response.text), 2, 0);
 
     int status;
@@ -43,10 +44,11 @@ int username_available(int msgid, char *username)
 
     data.type = 1;
     sprintf(data.text, "username_registered %s",username);
+    // send message to server
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
-
+    // get reply from server
     msgrcv(msgid, &response, sizeof(response.text), 2, 0);
 
     int status;
@@ -64,10 +66,11 @@ int register_user(int msgid, char *username, char *password, int k)
 
     data.type = 1;
     sprintf(data.text, "register %s %d %s", username, k, password);
+    // send message to server
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
-
+    // get reply from server
     msgrcv(msgid, &response, sizeof(response.text), 2, 0);
 
     int status;
@@ -84,18 +87,18 @@ server-to-honeychecker communication functions
 ===========================================================*/
 
 
-/* This function communicates with the honeychecker to add a new user entry to honeychekcer's
-file */ 
+/* This function communicates with the honeychecker to add a new user entry to the
+honeychekcer's file */ 
 int set_user(int msgid, char username[], int a)
 {
     struct mesg data;
     data.type = 3;
     sprintf(data.text, "set %s %d", username, a);
-
+    // send message to honeychecker
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
-
+    // get reply from honeychecker
     msgrcv(msgid, &response, sizeof(response.text), 4, 0);
 
     int status;
@@ -112,11 +115,11 @@ int check_user(int msgid, char username[], int a)
     struct mesg data;
     data.type = 3;
     sprintf(data.text, "check %s %d", username, a);
-
+    // send message to honeychecker
     msgsnd(msgid, &data, sizeof(data.text), 0);
 
     struct mesg response;
-    
+    // get reply from honeychecker
     msgrcv(msgid, &response, sizeof(response.text), 4, 0);
 
     int status;

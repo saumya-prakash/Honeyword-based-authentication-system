@@ -10,14 +10,8 @@
 
 
 
-
-
 #define N 256   // buffer size
 #define MAX_USERNAME_LENGTH 256
 
 
-#define MAX_USERS 65536 // maximum numbrt users supported by the system
-
-
-
-
+#define MAX_USERS 65536 // maximum number of users supported by the system

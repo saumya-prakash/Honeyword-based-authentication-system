@@ -71,7 +71,7 @@ void raise_alarm(char username[], int type)
     else if(type == HONEYWORD_HIT)
         printf("ALARM!!! HONEYWORD HIT\n");
     
-    printf("entered username - %s\n", username);
+    printf("The username entered was -> %s\n", username);
     
     printf("\n");
 

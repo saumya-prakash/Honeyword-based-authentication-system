@@ -1,6 +1,6 @@
 /*******************************************************************************
- * This file contains the 'client' program source code. This program interacts
- * with the user. 
+ * This file contains the 'client' program source code. This program directly
+ * interacts with the user. 
  * *****************************************************************************/
 
 
@@ -12,6 +12,7 @@
 int msgid = -1;
 
 
+/* This function allows a user to enter credentials and login into the system */
 void login()
 {
     char username[MAX_USERNAME_LENGTH] = {'\0'};
@@ -28,8 +29,14 @@ void login()
     if(status == 1)
         printf("Login Successful!\n");
 
+    else if(status == HONEYPOT_HIT)
+        raise_alarm(username, HONEYPOT_HIT);
+    
+    else if(status == HONEYWORD_HIT)
+        raise_alarm(username, HONEYWORD_HIT);
+
     else if(status < 0)
-        printf("Username or password wrong\n");
+        printf("username or password wrong\n");
 
 
     return ;
@@ -70,8 +77,8 @@ void create_new_account()
         return ;
     }
 
-    int k;
-    printf("Enter k [default is 6]: "); // input k
+    int k = 6;
+    printf("Enter k [default is 6; max is 20]: "); // input k
     scanf("%d", &k);
     
     // communicate with server to register the user
@@ -91,7 +98,6 @@ int main()
 {
     printf("Welcome to the Authentication System.\n\n");
 
-
     msgid = get_msgid();    // get message-queue key
 
     int option = 0;
@@ -103,7 +109,7 @@ int main()
         printf("\t2 - Create a new account\n");
         printf("\t3 - Exit\n\n");
 
-        printf("Select an option: ");
+        printf("Select an option: ");   // input selected option
         scanf("%d", &option);
 
         switch(option)
@@ -122,6 +128,7 @@ int main()
 
         printf("\n");
     }
+
 
     printf("Thank you for using the system.\n");
 

@@ -21,21 +21,21 @@ int username_registered(char *username)
         return -1;
     
 
-    char tmp[MAX_LINE_LENGTH];
+    char tmp[MAX_LINE_LENGTH] = {'\0'};
     char *lineptr = tmp;
-    size_t a = MAX_LINE_LENGTH;
+    size_t a = sizeof(tmp);
     size_t len;
     
     int res = -1;
 
-    /* examine each username in the file */
+    /* examine each username in file 'F1' */
     while((len = getline(&lineptr, &a, fptr)) != EOF)
     {
         int i = 0;
         while(i < len && tmp[i] != ' ')
             i++;
         
-        tmp[i] = '\0';
+        tmp[i] = '\0';  // separate username from indexes
 
         if(strcmp(username, tmp) == 0)  // username found in the file
         {
@@ -72,7 +72,7 @@ int get_random_index()
     while(fscanf(fptr, "%s", line) != EOF)
     {
         char *colon = strstr(line, ":");    // locate the colon    
-        *colon = '\0';  // separate the index part
+        *colon = '\0';  // separate the index part from hashed value
 
         int num = atoi(line);
         arr[num] = 1;
@@ -148,7 +148,7 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
     honeyset[k-1] = a;
 
-    // randomly permutate honeyset[]
+    // randomly permutate honeyset[] array
     permutate_array(honeyset, k);
 
     return 1;
@@ -157,7 +157,7 @@ int get_honeyindex_set(int honeyset[], int a, int k)
 
 
 
-/* This function adds an entry to file1 */
+/* This function adds an entry to file 'F1' */
 int add_to_file1(char username[], int honeyset[], int k)
 {
     FILE *fptr = fopen(file1, "a");
@@ -182,7 +182,7 @@ int add_to_file1(char username[], int honeyset[], int k)
 
 
 
-/* This function adds an entry to file2 */
+/* This function adds an entry to file 'F2' */
 int add_to_file2(int a, char hashed[])
 {
     FILE *fptr = fopen(file2, "a");
@@ -308,7 +308,7 @@ int match_with_file2(char num[], char hashed[])
 =================================================================*/
 
 
-/* This function adds an entry, <username sugarindex> to the honeychecker's
+/* This function adds an entry, <username sugarindex>, to the honeychecker's
 file */
 int set(char username[], int a)
 {
@@ -335,7 +335,7 @@ int check(char username[], int a)
     if(fptr == NULL)
         return -1;      // error in opening file
     
-    char tmp[N] = {'\0'};
+    char tmp[MAX_LINE_LENGTH] = {'\0'};
 
     int res = HONEYWORD_HIT;
 

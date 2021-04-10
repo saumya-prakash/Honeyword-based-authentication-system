@@ -8,8 +8,8 @@ all: client server honeychecker
 
 # Create executables
 
-client: client.o communication.o
-			$(CC) client.o communication.o -o client
+client: client.o communication.o utilities.o
+			$(CC) client.o communication.o utilities.o -o client
 
 
 

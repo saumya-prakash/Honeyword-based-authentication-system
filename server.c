@@ -25,6 +25,8 @@ int check_for_username(char message[])
     char query_type[N] = {'\0'};
     sscanf(message, "%s %s", query_type, username);
 
+    printf("username = %s\n", username);
+
     return username_registered(username);
 }
 
@@ -39,6 +41,8 @@ int add_user(char message[])
     // extract usernmae, k and password
     sscanf(message, "%s %s %d %s", query_type, username, &k, password);
     
+    printf("username = %s\n", username);
+
     if(k < MIN_K)
         k = MIN_K;
     if(k > MAX_K)
@@ -58,20 +62,13 @@ int add_user(char message[])
     if(res < 0)
         return res;
 
-    printf("username = %s\n", username);
-    printf("password = %s\n", hashed);
-    printf("random_index = %d\n", a);
-    int i;
-    for(i=0; i<k; i++)
-        printf("%d ", honeyset[i]);
-    printf("\n");
 
     // send <username, correct_index> to honeychecker
     res = set_user(msgid, username, a);
     if(res < 0)
         return res;
 
-    // add the entry to F1 and F2(update F2 after getting the honeyindex set) - OK
+    // add the entry to F1 and F2 (update F2 after getting the honeyindex set)
     add_to_file1(username, honeyset, k);
     add_to_file2(a, (char*) hashed);
 
@@ -86,8 +83,11 @@ int verify_credentials(char message[])
     char query_type[N] = {'\0'};
     char username[MAX_USERNAME_LENGTH] = {'\0'};
     unsigned char password[N] = {'\0'};
+
     // extract username and password
     sscanf(message, "%s %s %s", query_type, username, password);
+
+    printf("username = %s\n", username);
 
     // get MD5 of the password
     unsigned char hashed[50] = {'\0'};
@@ -135,7 +135,7 @@ int verify_credentials(char message[])
 int main()
 {
     signal(SIGINT, clean);  // for handling unexpected terminations
-    srand48(time(NULL));    // seed random-number generator
+    srand48(time(NULL));    // seed the random-number generator
 
     msgid = get_msgid();    // get message-queue key
 
@@ -154,12 +154,11 @@ int main()
             clean(SIGINT);
         }
 
-        printf("received message = %s\n", data.text);
-
         int status = 1;
 
         char query_type[N] = {'\0'};
         sscanf(data.text, "%s", query_type);
+        
         printf("query_type = %s\n", query_type);
 
 

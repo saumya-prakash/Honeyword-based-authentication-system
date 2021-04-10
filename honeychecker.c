@@ -71,6 +71,8 @@ int main()
         sprintf(response.text, "%d", status);
 
         msgsnd(msgid, &response, sizeof(response.text), 0);
+
+        printf("\n");
     }
 
 
