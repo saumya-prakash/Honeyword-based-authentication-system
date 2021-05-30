@@ -1,6 +1,6 @@
 # Honeyword-based-authentication-system
 
-An implementation of honeyword-based authentication system that can detect password leaks. The honeword generation scheme is based on [Erguler's scheme (2)](#erguler).
+An implementation of honeyword-based authentication system that can detect password leaks. The honeword-generation scheme is based on [Erguler's scheme (2)](#erguler).
 
 ### Architecture
 <li> honeychecker program - It contains the username and the corresponding correct-password index (stored in the file sugar_index).
