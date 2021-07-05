@@ -5,9 +5,9 @@ An implementation of honeyword-based authentication system that can detect passw
     
       
 ## Architecture
-* honeychecker program - It contains the username and the corresponding correct-password index (stored in the file sugar_index).
-* server program - It manipulates the files F1 and F2. Only this program can directly communicate with the honeychecker program.
-* client program - It interacts with the user. It communicates with the server program.
+* ***honeychecker program*** - It contains the username and the corresponding correct-password index (stored in the file sugar_index).
+* ***server program*** - It manipulates the files F1 and F2. Only this program can directly communicate with the honeychecker program.
+* ***client program*** - It interacts with the user. It communicates with the server program.
 
   
 ### References
