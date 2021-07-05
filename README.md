@@ -1,7 +1,7 @@
 # Honeyword-based-authentication-system
 
 An implementation of honeyword-based authentication system that can detect password leaks. The honeword-generation scheme is based on [Erguler's scheme (2)](#erguler).
-  
+
     
       
 ## Architecture
@@ -10,7 +10,7 @@ An implementation of honeyword-based authentication system that can detect passw
 * ***client program*** - It interacts with the user. It communicates with the server program.
 
   
-### References
+## References
 
 1. [Honeywords:Making Password-Cracking Detectable, Ari Juels, Ronald L. Rivest](https://people.csail.mit.edu/rivest/pubs/JR13.pdf)
 
