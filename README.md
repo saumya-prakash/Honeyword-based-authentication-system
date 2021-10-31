@@ -2,7 +2,11 @@
 
 An implementation of honeyword-based authentication system that can detect password leaks. The honeword-generation scheme is based on [Erguler's scheme (2)](#erguler).
 
-    
+## About honeywords
+
+Honeywords are fake passwords that are kept along the actual passwords of the users. When a password file is leaked, the adversary tries to crack the hashed passwords and then login into the system. Usually, the time between actual leak and detection of password leak by system admin is too long. It is very likely that the adversary had already caused the damage by then. This scheme tries to reduce that gap.
+
+When the attacker leaks password file from a system that implements Honeyword-scheme, then he gets a list of probable passwords for each user, if he successfully cracks the hashed passwords. Then he needs to figure out the correct passworc, called _sugarword_. If he guesses wrong and enters a honeyword, then the system can detect that a login attempt using a honeyword was made, and some suitable action could be initiated.
       
 ## Architecture
 * **honeychecker program** - It manages the _sugar\_index_ file, which contains usernames and corresponding correct-password index. 
