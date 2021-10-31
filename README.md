@@ -9,11 +9,17 @@ Honeywords are fake passwords that are kept along the actual passwords of the us
 When the attacker leaks password file from a system that implements Honeyword-scheme, then he gets a list of probable passwords for each user, if he successfully cracks the hashed passwords. Then he needs to figure out the correct passworc, called _sugarword_. If he guesses wrong and enters a honeyword, then the system can detect that a login attempt using a honeyword was made, and some suitable action could be initiated.
       
 ## Architecture
-* **honeychecker program** - It manages the _sugar\_index_ file, which contains usernames and corresponding correct-password index. 
-* **server program** - It manipulates the files _F1_ and _F2_. Only this program can directly communicate with the honeychecker program. The _F1_ file contains usernames and corresponding sugarword-index lists. The _F2_ file contains indexes and corresponding passwords (in hashed form).
-* **client program** - It interacts with the user, and communicates only with the server program.
 
-  
+* **`honeychecker program`** - It manages the _sugar\_index_ file, which contains usernames and corresponding correct-password index. 
+* **`server program`** - It manipulates the files _F1_ and _F2_. Only this program can directly communicate with the honeychecker program. The _F1_ file contains usernames and corresponding sugarword-index lists. The _F2_ file contains indexes and corresponding passwords (in hashed form).
+* **`client program`** - It interacts with the user, and communicates only with the server program.
+
+* This is program is tested on a single machine. The components communicate through a _System V message queue_.
+
+* **MD5** is used as the hashing algorithm to hash password. It is **strongly** recommended to use some other hashing algorithm which is more resistant to attacks, like, [_argon2_](https://github.com/P-H-C/phc-winner-argon2), [_bcrypt_](https://en.wikipedia.org/wiki/Bcrypt).
+
+
+
 ## References
 
 1. [Honeywords:Making Password-Cracking Detectable, Ari Juels, Ronald L. Rivest](https://people.csail.mit.edu/rivest/pubs/JR13.pdf)
